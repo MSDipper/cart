@@ -26,7 +26,7 @@ window.addEventListener('click', (e) => {
 
 // Add product to cart
 const cartList = document.querySelector('.shopping_bag');
-
+console.log(cartList);
 window.addEventListener('click', (e) => {
     if (e.target.hasAttribute('data-cart')) {
 		const card = e.target.closest('.div_list_product');
@@ -37,35 +37,41 @@ window.addEventListener('click', (e) => {
 			price: card.querySelector('.price').innerText,
 			quantity: card.querySelector('[data-counter]').innerText,
 		};
-        const cartItemHTML = `
-                    <div class="cart-item" data-id=${ productData.id }>
-                        <div class="cart-item__top">
-                            <div class="cart-item__img">
-                                <img src=${ productData.imgSrc } alt="">
-                            </div>
-                            <div class="cart-item__desc">
-                                <div class="cart-item__title">${ productData.title }</div>
+        const productToCart = cartList.querySelector(`[data-id="${ productData.id }"]`);
 
-                                <!-- cart-item__details -->
-                                <div class="cart-item__details">
+        if (productToCart) {
+			const counterElement = productToCart.querySelector('[data-counter]');
+			counterElement.innerText = parseInt(counterElement.innerText) + parseInt(productData.quantity);
+		} else {
+            const cartItemHTML = `
+                        <div class="cart-item" data-id=${ productData.id }>
+                            <div class="cart-item__top">
+                                <div class="cart-item__img">
+                                    <img src=${ productData.imgSrc } alt="">
+                                </div>
+                                <div class="cart-item__desc">
+                                    <div class="cart-item__title">${ productData.title }</div>
 
-                                    <div class="items items--small counter-wrapper">
-                                        <div class="items__control" data-action="minus">-</div>
-                                        <div class="items__current" data-counter="">${ productData.quantity }</div>
-                                        <div class="items__control" data-action="plus">+</div>
-                                    </div>
+                                    <!-- cart-item__details -->
+                                    <div class="cart-item__details">
 
-                                    <div class="price">
-                                        <div class="price__currency">${ productData.price } ₽</div>
-                                    </div>
+                                        <div class="items items--small counter-wrapper">
+                                            <div class="items__control" data-action="minus">-</div>
+                                            <div class="items__current" data-counter="">${ productData.quantity }</div>
+                                            <div class="items__control" data-action="plus">+</div>
+                                        </div>
 
-                                </div></ul>
-                                <!-- // cart-item__details -->
+                                        <div class="price">
+                                            <div class="price__currency">${ productData.price } ₽</div>
+                                        </div>
 
+                                    </div></ul>
+                                    <!-- // cart-item__details -->
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    `;
-        cartList.insertAdjacentHTML('beforeend', cartItemHTML);
-    };
+                        `;
+            cartList.insertAdjacentHTML('beforeend', cartItemHTML);
+        };}
 });
