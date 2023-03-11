@@ -1,12 +1,35 @@
 
-const cartList = document.querySelector('.shopping_bag');
+// Goods counter
+window.addEventListener('click', (e) => {
+    let counter;
+    if (e.target.dataset.action === 'plus' || e.target.dataset.action === 'minus') {
+        const counterWrapper = e.target.closest('.counter-wrapper');
+        counter = counterWrapper.querySelector('[data-counter]');
+    };
+    if (e.target.dataset.action === 'plus') {
+		counter.innerText = ++counter.innerText;
+	};
+    if (e.target.dataset.action === 'minus') {
+        if (parseInt(counter.innerText) > 1) {
+            counter.innerText = --counter.innerText;
+        } else if (e.target.closest('.cart-wrapper') && parseInt(counter.innerText) === 1) {
+            e.target.closest('.cart-item').remove();
+            calcCartPriceAndDelivery();
+        };
+    };
+	if (e.target.hasAttribute('data-action') && e.target.closest('.cart-wrapper')) {
+        toggleCartStatus();
+        calcCartPriceAndDelivery();
+	};
+});
 
+
+// Add product to cart
+const cartList = document.querySelector('.shopping_bag');
 
 window.addEventListener('click', (e) => {
     if (e.target.hasAttribute('data-cart')) {
 		const card = e.target.closest('.div_list_product');
-
-
         const productData = {
 			id: card.dataset.id,
 			imgSrc: card.querySelector('.img-responsive').getAttribute('src'),
@@ -14,8 +37,6 @@ window.addEventListener('click', (e) => {
 			price: card.querySelector('.price').innerText,
 			quantity: card.querySelector('[data-counter]').innerText,
 		};
-        
-        
         const cartItemHTML = `
                     <div class="cart-item" data-id=${ productData.id }>
                         <div class="cart-item__top">
@@ -46,6 +67,5 @@ window.addEventListener('click', (e) => {
                     </div>
                     `;
         cartList.insertAdjacentHTML('beforeend', cartItemHTML);
-    }
-
-})
+    };
+});
