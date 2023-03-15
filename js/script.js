@@ -12,7 +12,7 @@ window.addEventListener('click', (e) => {
     if (e.target.dataset.action === 'minus') {
         if (parseInt(counter.innerText) > 1) {
             counter.innerText = --counter.innerText;
-        } else if (e.target.closest('.cart-wrapper') && parseInt(counter.innerText) === 1) {
+        } else if (e.target.closest('.shopping_bag') && parseInt(counter.innerText) === 1) {
             e.target.closest('.cart-item').remove();
             calcCartPriceAndDelivery();
         };
