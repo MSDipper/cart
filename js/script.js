@@ -17,10 +17,6 @@ window.addEventListener('click', (e) => {
             calcCartPriceAndDelivery();
         };
     };
-	if (e.target.hasAttribute('data-action') && e.target.closest('.cart-wrapper')) {
-        toggleCartStatus();
-        calcCartPriceAndDelivery();
-	};
 });
 
 
@@ -55,7 +51,7 @@ window.addEventListener('click', (e) => {
                                     <!-- cart-item__details -->
                                     <div class="cart-item__details">
 
-                                        <div class="items items--small counter-wrapper">
+                                        <div style="margin: 0;" class="items items--small counter-wrapper">
                                             <div class="items__control" data-action="minus">-</div>
                                             <div class="items__current" data-counter="">${ productData.quantity }</div>
                                             <div class="items__control" data-action="plus">+</div>
@@ -73,5 +69,7 @@ window.addEventListener('click', (e) => {
                         </div>
                         `;
             cartList.insertAdjacentHTML('beforeend', cartItemHTML);
-        };}
+        };
+            card.querySelector('[data-counter]').innerText = '1';
+    }
 });
